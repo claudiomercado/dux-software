@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.duxsoftware.model.Team;
 import com.duxsoftware.repository.TeamRepository;
 
-import jakarta.transaction.Transactional;
-
 @Service
 public class TeamService {
 	
@@ -33,7 +31,6 @@ public class TeamService {
 				.orElseThrow(() -> new IllegalArgumentException(String.format("Equipo con el nombre: "+name+" no encontrado")));
 	}
 	
-//	@Transactional
 	public Team createTeam(Team team) {
 		if (team.getName() == null || team.getLeague() == null || team.getCountry() == null
 				|| !teamRepository.findById(team.getId()).isEmpty()) {
