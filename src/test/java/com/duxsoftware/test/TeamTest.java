@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.duxsoftware.controller.dto.TeamDTO;
 import com.duxsoftware.model.Team;
 import com.duxsoftware.service.TeamService;
 
@@ -18,7 +19,7 @@ class TeamTest {
 		TeamService teamService = mock(TeamService.class);
 		when(teamService.getAllTeams()).thenReturn(new ArrayList<>());
 		
-		List<Team> teams = teamService.getAllTeams();
+		List<TeamDTO> teams = teamService.getAllTeams();
 		assertNotNull(teams);
 		assertTrue(teams.isEmpty());	
 	}
@@ -26,10 +27,10 @@ class TeamTest {
 	@Test
 	void testFindTeamById() {
 		TeamService teamService = mock(TeamService.class);
-		Team team = new Team(1l,"Real Madrid","La Liga","España");
+		TeamDTO team = new TeamDTO(1l,"Real Madrid","La Liga","España");
 		when(teamService.getTeamById(2L)).thenReturn(team);
 
-		Team foundTeamById = teamService.getTeamById(2L);
+		TeamDTO foundTeamById = teamService.getTeamById(2L);
 		assertNotNull(foundTeamById);
 		assertEquals(1L, foundTeamById.getId());
 	}
@@ -37,10 +38,10 @@ class TeamTest {
 	@Test
 	void testFindTeamByName() {
 		TeamService teamService = mock(TeamService.class);
-		Team team = new Team(1l,"Real Madrid","La Liga","España");
+		TeamDTO team = new TeamDTO(1l,"Real Madrid","La Liga","España");
 		when(teamService.getTeamByName(team.getName())).thenReturn(team);
 		
-		Team foundTeamByName = teamService.getTeamByName("Real Madrid");
+		TeamDTO foundTeamByName = teamService.getTeamByName("Real Madrid");
 		assertNotNull(foundTeamByName);
 		assertEquals("Real Madrid", foundTeamByName.getName());
 	}
@@ -48,8 +49,8 @@ class TeamTest {
 	@Test
 	void testCreateTeam() {
 		TeamService teamService = mock(TeamService.class);
-		Team team = new Team(1l,"Real Madrid","La Liga","España");
-		when(teamService.createTeam(team)).thenReturn(team);
+		TeamDTO team = new TeamDTO(1l,"Real Madrid","La Liga","España");
+		when(teamService.createTeam(team)).thenReturn(new Team());
 		
 		Team createdTeam = teamService.createTeam(team);
 		assertNotNull(createdTeam);
@@ -59,8 +60,8 @@ class TeamTest {
 	@Test
 	void testUpdateTeam() {
 		TeamService teamService = mock(TeamService.class);
-		Team team = new Team(1l,"Real Madrid","La Liga","España");
-		when(teamService.updateTeam(1L, team)).thenReturn(team);
+		TeamDTO team = new TeamDTO(1L,"Real Madrid","La Liga","España");
+		when(teamService.updateTeam(1L, team)).thenReturn(new Team());
 		
 		Team updatedTeam = teamService.updateTeam(1L, team);
 		assertNotNull(updatedTeam);

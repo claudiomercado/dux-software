@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.duxsoftware.controller.dto.TeamDTO;
 import com.duxsoftware.model.Team;
 import com.duxsoftware.service.TeamService;
 
@@ -28,7 +29,7 @@ public class TeamController {
 	}
 	
 	@GetMapping("/equipos")
-	public ResponseEntity<List<Team>> getAllTeam(){
+	public ResponseEntity<List<TeamDTO>> getAllTeam(){
 		return ResponseEntity.ok(teamService.getAllTeams());
 	}
 	
@@ -43,13 +44,13 @@ public class TeamController {
 	}
 	
 	@PostMapping("/crearEquipo")
-	public ResponseEntity<Object> createTeam(@RequestBody Team team){
-		return new ResponseEntity<>(teamService.createTeam(team),HttpStatus.CREATED);
+	public ResponseEntity<Object> createTeam(@RequestBody TeamDTO teamDTO){
+		return new ResponseEntity<>(teamService.createTeam(teamDTO),HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/equipo/{id}")
-	public ResponseEntity<Object> updateTeam(@PathVariable(name = "id") Long id, @RequestBody Team team){
-		return ResponseEntity.ok(teamService.updateTeam(id,team));
+	public ResponseEntity<Object> updateTeam(@PathVariable(name = "id") Long id, @RequestBody TeamDTO teamDTO){
+		return ResponseEntity.ok(teamService.updateTeam(id,teamDTO));
 	}
 	
 	@DeleteMapping("/equipo/{id}")
@@ -57,5 +58,4 @@ public class TeamController {
 		teamService.deleteTeam(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
-	
 }

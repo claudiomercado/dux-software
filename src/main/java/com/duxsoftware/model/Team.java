@@ -26,9 +26,9 @@ public class Team {
 	
 	public Team() {};
 	
-	public Team(Long id, String name, String league, String country) {
-		this.id = id;
+	public Team(String name, String league, String country) {
 		this.name = name;
+		this.league = league;
 		this.country = country;
 	}
 
