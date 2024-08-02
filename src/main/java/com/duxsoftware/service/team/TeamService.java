@@ -1,6 +1,5 @@
-package com.duxsoftware.service;
+package com.duxsoftware.service.team;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.duxsoftware.controller.dto.TeamDTO;
 import com.duxsoftware.exception.RequestException;
-import com.duxsoftware.model.Team;
-import com.duxsoftware.repository.TeamRepository;
+import com.duxsoftware.model.team.TeamEntity;
+import com.duxsoftware.repository.team.TeamRepository;
 
 @Service
 public class TeamService {
@@ -43,30 +42,26 @@ public class TeamService {
 		return teamDTO;
 	}
 	
-	public TeamDTO getTeamByName(String name) {
-		TeamDTO teamDTO = teamRepository.getTeamByName(name)
-				.map(team -> new TeamDTO(
-						team.getId(),
-                        team.getName(),
-                        team.getLeague(),
-                        team.getCountry()))
-				.orElseThrow(() -> new RequestException(MESSAGE_NOT_FOUND,HttpStatus.NOT_FOUND));
-		
+	public List<TeamDTO> getTeamByName(String name) {
+		List<TeamDTO> teamDTO = teamRepository.findAll().stream()
+				.map(team -> new TeamDTO(team.getId(), team.getName(), team.getLeague(), team.getCountry()))
+				.filter(team -> team.getName().contains(name))
+				.collect(Collectors.toList());
 		return teamDTO;
 	}
 	
-	public Team createTeam(TeamDTO teamDTO) {
+	public TeamEntity createTeam(TeamDTO teamDTO) {
 		if (teamDTO.getName() == null || teamDTO.getLeague() == null || teamDTO.getCountry() == null){
 			throw new RequestException(MESSAGE_BAD_REQUEST,HttpStatus.BAD_REQUEST);
 		}
-		
-		Team team = new Team(teamDTO.getName(),teamDTO.getLeague(),teamDTO.getCountry());
+
+		TeamEntity team = new TeamEntity(teamDTO.getName(),teamDTO.getLeague(),teamDTO.getCountry());
 		
 		return teamRepository.save(team);
 	}
 	
-	public Team updateTeam(Long id,TeamDTO teamDTO) {
-		Optional<Team> updateTeam = teamRepository.findById(id);
+	public TeamEntity updateTeam(Long id,TeamDTO teamDTO) {
+		Optional<TeamEntity> updateTeam = teamRepository.findById(id);
 		
 		if (updateTeam.isEmpty() || teamDTO.getName() == null || teamDTO.getLeague() == null || teamDTO.getCountry() == null) {
 			throw new RequestException(MESSAGE_NOT_FOUND,HttpStatus.NOT_FOUND);
@@ -80,7 +75,7 @@ public class TeamService {
 	}
 	
 	public void deleteTeam(Long id) {
-		Optional<Team> updateTeam = teamRepository.findById(id);
+		Optional<TeamEntity> updateTeam = teamRepository.findById(id);
 		
 		if (updateTeam.isEmpty()) {
 			throw new RequestException(MESSAGE_NOT_FOUND,HttpStatus.NOT_FOUND);

@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.duxsoftware.controller.dto.TeamDTO;
-import com.duxsoftware.model.Team;
-import com.duxsoftware.service.TeamService;
+import com.duxsoftware.service.team.TeamService;
 
 @RestController
 @RequestMapping("/")

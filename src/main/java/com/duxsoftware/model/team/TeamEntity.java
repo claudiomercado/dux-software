@@ -1,4 +1,4 @@
-package com.duxsoftware.model;
+package com.duxsoftware.model.team;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "equipo")
-public class Team {
+public class TeamEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +24,9 @@ public class Team {
 	@Column(name = "pais")
 	private String country;
 	
-	public Team() {};
+	public TeamEntity() {};
 	
-	public Team(String name, String league, String country) {
+	public TeamEntity(String name, String league, String country) {
 		this.name = name;
 		this.league = league;
 		this.country = country;
