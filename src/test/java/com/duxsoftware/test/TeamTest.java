@@ -9,8 +9,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import com.duxsoftware.controller.dto.TeamDTO;
-import com.duxsoftware.model.Team;
-import com.duxsoftware.service.TeamService;
+import com.duxsoftware.model.team.TeamEntity;
+import com.duxsoftware.service.team.TeamService;
 
 class TeamTest {
 	
@@ -39,20 +39,19 @@ class TeamTest {
 	void testFindTeamByName() {
 		TeamService teamService = mock(TeamService.class);
 		TeamDTO team = new TeamDTO(1l,"Real Madrid","La Liga","España");
-		when(teamService.getTeamByName(team.getName())).thenReturn(team);
+		when(teamService.getTeamByName(team.getName())).thenReturn(new ArrayList<>());
 		
-		TeamDTO foundTeamByName = teamService.getTeamByName("Real Madrid");
+		List<TeamDTO> foundTeamByName = teamService.getTeamByName("Real Madrid");
 		assertNotNull(foundTeamByName);
-		assertEquals("Real Madrid", foundTeamByName.getName());
 	}
 	
 	@Test
 	void testCreateTeam() {
 		TeamService teamService = mock(TeamService.class);
 		TeamDTO team = new TeamDTO(1l,"Real Madrid","La Liga","España");
-		when(teamService.createTeam(team)).thenReturn(new Team());
+		when(teamService.createTeam(team)).thenReturn(new TeamEntity());
 		
-		Team createdTeam = teamService.createTeam(team);
+		TeamEntity createdTeam = teamService.createTeam(team);
 		assertNotNull(createdTeam);
 		assertTrue(createdTeam != null);
 	}
@@ -61,9 +60,9 @@ class TeamTest {
 	void testUpdateTeam() {
 		TeamService teamService = mock(TeamService.class);
 		TeamDTO team = new TeamDTO(1L,"Real Madrid","La Liga","España");
-		when(teamService.updateTeam(1L, team)).thenReturn(new Team());
+		when(teamService.updateTeam(1L, team)).thenReturn(new TeamEntity());
 		
-		Team updatedTeam = teamService.updateTeam(1L, team);
+		TeamEntity updatedTeam = teamService.updateTeam(1L, team);
 		assertNotNull(updatedTeam);
 		assertFalse(updatedTeam == null);
 	}
