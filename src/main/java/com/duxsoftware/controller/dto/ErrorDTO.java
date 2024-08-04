@@ -1,7 +1,11 @@
 package com.duxsoftware.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ErrorDTO {
+	@JsonProperty(value = "mensaje")
 	private String message;
+	@JsonProperty(value = "codigo")
 	private int code;
 	
 	public ErrorDTO(String message, int code) {

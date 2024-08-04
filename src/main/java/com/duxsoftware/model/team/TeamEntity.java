@@ -1,5 +1,7 @@
 package com.duxsoftware.model.team;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,12 +18,15 @@ public class TeamEntity {
 	private Long id;
 	
 	@Column(name = "nombre")
+	@JsonProperty(value = "nombre")
 	private String name;
 	
 	@Column(name = "liga")
+	@JsonProperty(value = "liga")
 	private String league;
 	
 	@Column(name = "pais")
+	@JsonProperty(value = "pais")
 	private String country;
 	
 	public TeamEntity() {};

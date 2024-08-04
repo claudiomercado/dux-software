@@ -25,6 +25,9 @@ import com.duxsoftware.util.JwtUtils;
 @Service
 public class UserDetailServiceImpl implements UserDetailsService{
 
+	private final static String USERNAME_INVALID = "Nombre de usuario invalido";
+	private final static String PASSWORD_INVALID = "Contraseña invalida";
+	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -37,7 +40,7 @@ public class UserDetailServiceImpl implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		UserEntity user = userRepository.findUserByUsername(username)
-				.orElseThrow(()-> new UsernameNotFoundException("El usuario "+username+" no existe."));
+				.orElseThrow(()-> new BadCredentialsException(USERNAME_INVALID));
 		
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		
@@ -61,12 +64,12 @@ public class UserDetailServiceImpl implements UserDetailsService{
 	public Authentication authenticate(String username, String password) {
 		UserDetails userDetails = this.loadUserByUsername(username);
 		
-		if (userDetails == null) {
-			throw new BadCredentialsException("Invalid username");
+		if (!userDetails.getUsername().equals(username) ) {
+			throw new BadCredentialsException(USERNAME_INVALID);
 		}
 		
 		if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-			throw new BadCredentialsException("Invalid password");
+			throw new BadCredentialsException(PASSWORD_INVALID);
 		}
 		
 		return new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(),null); 
